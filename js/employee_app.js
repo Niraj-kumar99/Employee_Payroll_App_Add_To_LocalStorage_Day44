@@ -28,3 +28,62 @@ window.addEventListener('DOMContentLoaded', (event) => {
    output.textContent = salary.value;
    })
 });
+
+//UC-3
+//Defining save() method ..
+   const save = () =>{
+   try{
+      // Values got from createEmployeePayroll() method will be stored in 
+      //employeePayrollData
+       let employeePayrollData = createEmployeePayroll();
+   }
+   catch(e){
+       console.error("Something Wrong !!! Please check provided input Values ");
+   }
+}
+   //Declaring method
+   const createEmployeePayroll = () => {
+   let employeePayrollData = new EmployeePayrollData();
+   try {
+       employeePayrollData.name = getInputValueById('#name');
+   } catch (e) {
+       setTextValue('.text-error', e);
+       throw e;
+   }
+   // getSelectedValues('[name=profile]') here as there are multiple inputs 
+   // provided for profile picture so it will take all as an array
+   // and then getSelectedValues() method will get the selected profile pic 
+   // then .pop will pop the selected value ..
+   employeePayrollData.profilePic = getSelectedValues('[name=profile]').pop();
+   employeePayrollData.gender = getSelectedValues('[name=gender]').pop();
+   employeePayrollData.department = getSelectedValues('[name=department]');
+
+   //getInputValueById('#salary') here using getInputValueById() method
+   // as here no multiple thigs present
+   //one perticular salary value will be selected .
+   employeePayrollData.salary = getInputValueById('#salary');
+   employeePayrollData._note = getInputValueById('#notes');
+   let date = getInputValueById('#day')+" "+getInputValueById('#month')+" "+ getInputValueById('#year');
+   employeePayrollData.date = Date.parse(date);
+   alert(employeePayrollData.toString());
+   return employeePayrollData;
+}
+
+   const getSelectedValues = (propertyValue => {
+   let allItems = document.querySelectorAll(propertyValue);
+   let selItems = [];
+   allItems.forEach(item => {
+       if(item.checked) selItems.push(item.value);
+   });
+   return selItems;
+});
+
+   const getInputValueById = (id) => {
+      let value = document.querySelector(id).value;
+      return value;
+}
+
+   const getInputElementValue = (id) => {
+      let value = document.getElementById(id).value;
+      return value;
+}
